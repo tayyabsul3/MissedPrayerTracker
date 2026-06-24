@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
-        name: 'Missed Prayer Tracker',
+        name: 'Qaza Tracker',
         short_name: 'Qaza Tracker',
         description: 'Track daily missed prayers (Qaza) and facilitate making them up with friendly reminders and authentic Hadiths.',
         theme_color: '#022C22',
