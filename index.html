@@ -1,66 +1,253 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#022C22" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+
+    <!-- ========================
+         PRIMARY SEO
+    ========================= -->
+    <title>Qaza Tracker — Free Offline Missed Prayer (Namaz) Logger | Track Qaza Salah</title>
+    <meta name="description" content="Qaza Tracker is a free, secure, offline-first web app to track all your missed Islamic prayers (Qaza Namaz). Log Fajr, Dhuhr, Asr, Maghrib, Isha & Witr counts, mark daily prayer outcomes, read Surah Yaseen, Al-Waqiah & Al-Mulk in Urdu and English — no signup, no ads, 100% private." />
+    <meta name="keywords" content="qaza tracker, missed prayer tracker, qaza namaz app, salah tracker, Islamic prayer log, qaza prayer counter, namaz qaza, fajr qaza, dhuhr qaza, asr qaza, maghrib qaza, isha qaza, witr qaza, surah yaseen, surah al-mulk, surah al-waqiah, quran reader urdu english, offline Islamic app, Islamic prayer reminder, hadith about prayer, prayer expiation, qaza salah, salah ledger, prayer debt tracker, Muslim prayer app, Islamic utility web app, free quran reader" />
+    <meta name="author" content="Qaza Tracker" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow" />
+    <link rel="canonical" href="https://missed-prayer-tracker.vercel.app/" />
+    <link rel="alternate" hreflang="en" href="https://missed-prayer-tracker.vercel.app/" />
+
+    <!-- ========================
+         LANGUAGE & GEO
+    ========================= -->
+    <meta name="language" content="English" />
+    <meta name="rating" content="general" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="geo.region" content="PK" />
+    <meta name="geo.placename" content="Pakistan" />
+    <meta name="target" content="all" />
+    <meta name="audience" content="all" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="distribution" content="Global" />
+    <meta name="classification" content="Islamic Utility, Lifestyle, Devotional" />
+    <meta name="category" content="Islamic App, Prayer Tracker, Quran Reader" />
+
+    <!-- ========================
+         PWA / APP META
+    ========================= -->
+    <meta name="theme-color" content="#022C22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#022C22" media="(prefers-color-scheme: light)" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Qaza Tracker" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Qaza Tracker - A secure, offline-first digital ledger to track your missed daily prayers (Qaza), read recommended Quranic Surahs (Yaseen, Waqiah, Mulk) with Urdu & English translations, and receive daily reminders without advertisements or signup." />
-    <meta name="keywords" content="Qaza prayer tracker, missed prayers tracker, Islamic prayer logger, salah tracker, qaza namaz, Surah Yaseen, Surah Al-Mulk, Surah Al-Waqiah, offline prayer app, Islamic devotional utility" />
-    <meta name="author" content="Qaza Tracker" />
-    <link rel="canonical" href="https://qazatracker.com/" />
+    <meta name="application-name" content="Qaza Tracker" />
+    <meta name="msapplication-TileColor" content="#022C22" />
+    <meta name="msapplication-TileImage" content="/pwa-192x192.png" />
+    <meta name="msapplication-starturl" content="/" />
+    <meta name="format-detection" content="telephone=no" />
 
-    <!-- Structured Data / JSON-LD Schema -->
+    <!-- ========================
+         FAVICON & ICONS
+    ========================= -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/pwa-512x512.png" />
+
+    <!-- ========================
+         PERFORMANCE & PRECONNECTS
+    ========================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+    <!-- ========================
+         OPEN GRAPH (Facebook, WhatsApp, LinkedIn)
+    ========================= -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Qaza Tracker" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://missed-prayer-tracker.vercel.app/" />
+    <meta property="og:title" content="Qaza Tracker — Free Offline Missed Prayer Logger | Track Qaza Namaz" />
+    <meta property="og:description" content="Track all your missed Islamic prayers (Qaza Namaz) completely offline. Log Fajr, Dhuhr, Asr, Maghrib, Isha & Witr counts. Read Surah Yaseen, Al-Waqiah, Al-Mulk in Urdu & English. Free, private, no ads." />
+    <meta property="og:image" content="https://missed-prayer-tracker.vercel.app/pwa-512x512.png" />
+    <meta property="og:image:secure_url" content="https://missed-prayer-tracker.vercel.app/pwa-512x512.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Qaza Tracker app icon — Offline missed prayer tracker for Muslims" />
+
+    <!-- ========================
+         TWITTER / X CARD
+    ========================= -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@QazaTracker" />
+    <meta name="twitter:creator" content="@QazaTracker" />
+    <meta name="twitter:url" content="https://missed-prayer-tracker.vercel.app/" />
+    <meta name="twitter:title" content="Qaza Tracker — Free Offline Missed Prayer Logger" />
+    <meta name="twitter:description" content="Track all your missed Islamic prayers (Qaza Namaz) offline. No login, no ads. Read Surah Yaseen, Al-Waqiah & Al-Mulk with Urdu & English translations." />
+    <meta name="twitter:image" content="https://missed-prayer-tracker.vercel.app/pwa-512x512.png" />
+    <meta name="twitter:image:alt" content="Qaza Tracker app — Islamic prayer tracker" />
+
+    <!-- ========================
+         JSON-LD SCHEMA 1: SoftwareApplication
+    ========================= -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Qaza Tracker",
-      "alternateName": "Qaza Prayer Tracker",
-      "description": "Secure offline-first app to track missed daily prayers (Qaza), read recommended Quranic Surahs (Yaseen, Waqiah, Mulk) with parallel Urdu & English translations, and maintain a private salah ledger.",
-      "applicationCategory": "LifestyleApplicationType, UtilityApplicationType",
-      "operatingSystem": "All",
+      "alternateName": ["Qaza Prayer Tracker", "Missed Prayer Tracker", "Qaza Namaz App"],
+      "url": "https://missed-prayer-tracker.vercel.app/",
+      "description": "Free, secure, offline-first web app to track missed Islamic prayers (Qaza Namaz). Log Fajr, Dhuhr, Asr, Maghrib, Isha and Witr counts, mark daily prayer outcomes as Prayed, Missed or Pending, and read Surah Yaseen, Al-Waqiah and Al-Mulk in parallel Urdu and English translations.",
+      "applicationCategory": "LifestyleApplication",
+      "applicationSubCategory": "Islamic Devotional Utility",
+      "operatingSystem": "All — works in any modern browser on iOS, Android, Windows, macOS and Linux",
+      "browserRequirements": "Requires JavaScript. Works offline after first load.",
+      "inLanguage": ["en", "ur"],
+      "isAccessibleForFree": true,
+      "isFamilyFriendly": true,
       "offers": {
         "@type": "Offer",
         "price": "0.00",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
       },
       "featureList": [
-        "Offline-first secure local browser storage",
-        "Adjustable missed prayers (Qaza) counter ledger",
-        "3-state daily prayer checklist (Prayed, Missed, Pending)",
-        "Bilingual Quran recitation reader (Urdu and English parallel translations)",
-        "Time-of-day smart Surah recommendations",
+        "Offline-first secure local browser storage — no server or login required",
+        "Adjustable missed prayers (Qaza) counter ledger for Fajr, Dhuhr, Asr, Maghrib, Isha and Witr",
+        "3-state daily prayer checklist: Prayed, Missed, and Pending",
+        "Bilingual Quran reader with Urdu and English parallel translations",
+        "Time-of-day smart Surah recommendations: Yaseen (morning), Al-Waqiah (evening), Al-Mulk (night)",
         "Authentic Hadith warnings and expiation reminders",
-        "Local JSON database backup export and import"
+        "Full prayer history and audited adjustment log",
+        "Local JSON database backup export and import",
+        "Dark mode Islamic UI with Arabic typography",
+        "Works on mobile, tablet and desktop — fully responsive"
+      ],
+      "screenshot": "https://missed-prayer-tracker.vercel.app/pwa-512x512.png",
+      "image": "https://missed-prayer-tracker.vercel.app/pwa-512x512.png",
+      "logo": "https://missed-prayer-tracker.vercel.app/favicon.svg",
+      "creator": {
+        "@type": "Organization",
+        "name": "Qaza Tracker",
+        "url": "https://missed-prayer-tracker.vercel.app/"
+      }
+    }
+    </script>
+
+    <!-- ========================
+         JSON-LD SCHEMA 2: WebSite (enables Google Sitelinks Search Box)
+    ========================= -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Qaza Tracker",
+      "alternateName": "Qaza Namaz Tracker",
+      "url": "https://missed-prayer-tracker.vercel.app/",
+      "description": "Free offline Islamic prayer tracker to log missed prayers (Qaza Namaz) and read Quran Surahs with Urdu and English translations.",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://missed-prayer-tracker.vercel.app/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- ========================
+         JSON-LD SCHEMA 3: Organization
+    ========================= -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Qaza Tracker",
+      "url": "https://missed-prayer-tracker.vercel.app/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://missed-prayer-tracker.vercel.app/pwa-512x512.png",
+        "width": 512,
+        "height": 512
+      },
+      "description": "Developer of the free Qaza Tracker — an offline Islamic prayer tracking utility for Muslims worldwide.",
+      "foundingDate": "2024",
+      "areaServed": "Worldwide",
+      "knowsAbout": ["Islamic prayer tracking", "Qaza Namaz", "Quran recitation", "Muslim devotional apps"]
+    }
+    </script>
+
+    <!-- ========================
+         JSON-LD SCHEMA 4: FAQPage (targets Google FAQ rich results)
+    ========================= -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Qaza prayer (Qaza Namaz)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Qaza (also spelled Qadha) refers to Islamic obligatory prayers that were missed and must be made up (performed later). Qaza Tracker helps Muslims keep an accurate digital count of all missed prayers across Fajr, Dhuhr, Asr, Maghrib, Isha and Witr so they can systematically make them up."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Qaza Tracker free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Qaza Tracker is completely free. There are no subscriptions, no advertisements, and no account registration required. Your data stays entirely on your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Qaza Tracker work without an internet connection?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Qaza Tracker stores all your prayer data locally in your browser using IndexedDB. After the first page load, the app works fully offline. No internet connection is needed for tracking or reading Surahs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which Surahs are available in Qaza Tracker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Qaza Tracker includes Surah Yaseen (recommended for mornings), Surah Al-Waqiah (recommended for evenings), and Surah Al-Mulk (recommended before sleep at night). All three include parallel Arabic text, Urdu translation, and English translation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my prayer data private and secure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. Qaza Tracker never sends any data to a server. All your prayer counts, daily logs, and history records are saved exclusively in your local browser storage. You can also export a JSON backup of your data at any time from the Settings screen."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I back up or transfer my prayer data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Go to the Settings screen inside Qaza Tracker and use the Export Data option to download a complete JSON backup of your prayer data. You can import this file on another device or browser to restore your records."
+          }
+        }
       ]
     }
     </script>
 
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://qazatracker.com/" />
-    <meta property="og:title" content="Qaza Tracker - Secure Offline Missed Prayer Logger" />
-    <meta property="og:description" content="Track your missed daily prayers (Qaza) completely offline. Log checklist items, view bilingual Surah recitations with Urdu and English translations, and receive reminders." />
-    <meta property="og:image" content="/pwa-512x512.png" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://qazatracker.com/" />
-    <meta property="twitter:title" content="Qaza Tracker - Secure Offline Missed Prayer Logger" />
-    <meta property="twitter:description" content="Track your missed daily prayers (Qaza) completely offline. Log checklist items, view bilingual Surah recitations with Urdu and English translations, and receive reminders." />
-    <meta property="twitter:image" content="/pwa-512x512.png" />
-    
-    <title>Qaza Tracker</title>
+    <!-- ========================
+         TITLE (duplicated below schema for clarity)
+    ========================= -->
+    <title>Qaza Tracker — Free Offline Missed Prayer (Namaz) Logger | Track Qaza Salah</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

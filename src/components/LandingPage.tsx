@@ -79,7 +79,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
     <div className="w-full min-h-screen bg-[#022c22] text-[#e2e8f0] font-sans selection:bg-[#d4af37]/30 flex flex-col justify-between overflow-x-hidden">
       
       {/* 1. Floating Responsive Navbar */}
-      <nav className="fixed top-4 left-4 right-4 max-w-6xl mx-auto rounded-3xl navbar-glass z-50 transition-all duration-300">
+      <nav aria-label="Main navigation" className="fixed top-4 left-4 right-4 max-w-6xl mx-auto rounded-3xl navbar-glass z-50 transition-all duration-300">
         <div className="px-6 py-4 flex justify-between items-center">
           {/* Logo & Identity */}
           <div className="flex items-center space-x-3">
@@ -161,7 +161,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       </nav>
 
       {/* 2. Hero Section */}
-      <section className="relative overflow-hidden pt-36 pb-20 lg:pt-48 lg:pb-28">
+      <section aria-label="Hero — Qaza Tracker overview" className="relative overflow-hidden pt-36 pb-20 lg:pt-48 lg:pb-28">
         {/* Glow Effects */}
         <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-br from-[#d4af37]/8 to-transparent rounded-full blur-[120px] -z-10"></div>
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] -z-10"></div>
@@ -441,7 +441,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       </section>
 
       {/* 3. Features Bento Grid Section */}
-      <section id="features" className="py-20 border-t border-emerald-950/30 bg-emerald-950/10">
+      <section id="features" aria-label="App features" className="py-20 border-t border-emerald-950/30 bg-emerald-950/10">
         <div className="max-w-6xl mx-auto px-6 space-y-12">
           <div className="text-center space-y-3">
             <span className="text-xs uppercase tracking-widest text-[#d4af37] font-extrabold">Features Grid</span>
@@ -533,7 +533,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       </section>
 
       {/* 4. Interactive Recitation Simulator Section */}
-      <section id="simulator" className="py-20 max-w-6xl mx-auto px-6 space-y-12">
+      <section id="simulator" aria-label="Daily Surah recitation simulator" className="py-20 max-w-6xl mx-auto px-6 space-y-12">
         <div className="text-center space-y-3">
           <span className="text-xs uppercase tracking-widest text-[#d4af37] font-extrabold">Recitation Simulator</span>
           <h2 className="text-3xl font-bold text-white font-outfit">Smart Devotional Schedule</h2>
@@ -661,7 +661,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       </section>
 
       {/* 5. Tabbed Hadith Reminders Section */}
-      <section id="hadiths" className="py-20 bg-emerald-950/10 border-t border-b border-emerald-950/30">
+      <section id="hadiths" aria-label="Authentic Hadith reminders about Salah" className="py-20 bg-emerald-950/10 border-t border-b border-emerald-950/30">
         <div className="max-w-6xl mx-auto px-6 space-y-12">
           <div className="text-center space-y-3">
             <span className="text-xs uppercase tracking-widest text-[#d4af37] font-extrabold">Hadith warnings & mercy</span>
@@ -874,8 +874,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
           </button>
 
           <p className="text-[10px] text-[#94a3b8] mt-12">
-            Made for the Ummah. Qaza Prayer Tracker © 2026.
+            Made for the Ummah. Qaza Tracker — Free Offline Missed Prayer (Qaza Namaz) Logger © 2026.
           </p>
+          {/* Hidden structured address for SEO */}
+          <address className="sr-only" itemScope itemType="https://schema.org/Organization">
+            <span itemProp="name">Qaza Tracker</span>.
+            <span itemProp="url">https://missed-prayer-tracker.vercel.app/</span>.
+            Free Islamic prayer tracking utility. Track missed prayers (Qaza Namaz) offline.
+          </address>
         </div>
       </footer>
     </div>

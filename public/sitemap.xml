@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+    http://www.google.com/schemas/sitemap-image/1.1
+    http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
+
+  <!-- Main App URL -->
+  <url>
+    <loc>https://missed-prayer-tracker.vercel.app/</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://missed-prayer-tracker.vercel.app/pwa-512x512.png</image:loc>
+      <image:title>Qaza Tracker — Offline Missed Prayer Logger for Muslims</image:title>
+      <image:caption>Qaza Tracker is a free, offline-first Islamic app to track missed daily prayers (Qaza Namaz) and read Surah Yaseen, Al-Waqiah and Al-Mulk with Urdu and English translations.</image:caption>
+      <image:geo_location>Pakistan</image:geo_location>
+      <image:license>https://missed-prayer-tracker.vercel.app/</image:license>
+    </image:image>
+  </url>
+
+</urlset>
