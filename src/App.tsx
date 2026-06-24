@@ -63,7 +63,7 @@ function App() {
       <div className="w-full max-w-md md:max-w-3xl lg:max-w-5xl px-4 flex flex-col min-h-screen relative">
         
         {/* Elegant Islamic Header */}
-        <header className="py-5 flex items-center justify-between border-b border-emerald-950/40 mb-6 bg-[#022c22]/80 backdrop-blur-md sticky top-0 z-40">
+        <header className="py-5 flex items-center justify-between border-b border-emerald-900/30 mb-6 bg-[#022c22]/95 backdrop-blur-md sticky top-0 z-40">
           <div className="flex items-center space-x-3">
             {/* Mosque dome silhouette avatar */}
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37]/20 to-emerald-900/40 border border-[#d4af37]/30 flex items-center justify-center relative shadow-inner">
@@ -125,7 +125,7 @@ function App() {
         </main>
 
         {/* Bottom Navigation Bar */}
-        <nav className="fixed bottom-4 left-4 right-4 max-w-md md:max-w-lg mx-auto glass-panel-active rounded-2xl border border-[#d4af37]/25 shadow-2xl z-50 overflow-hidden">
+        <nav className="fixed bottom-4 left-4 right-4 max-w-md md:max-w-lg mx-auto navbar-glass z-50 overflow-hidden">
           <div className="grid grid-cols-5 h-16">
             
             {/* Dashboard Tab */}

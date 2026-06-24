@@ -49,6 +49,14 @@ body {
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.15);
 }
 
+.navbar-glass {
+  background: rgba(2, 44, 34, 0.88); /* Increased opacity to prevent background text bleed */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.55), 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
 .gold-glow {
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
 }
