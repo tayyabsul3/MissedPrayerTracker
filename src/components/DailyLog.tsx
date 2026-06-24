@@ -224,43 +224,43 @@ export const DailyLog: React.FC<DailyLogProps> = ({ profile, onDataChange }) => 
                   </div>
 
                   {/* 3-State Toggle button group */}
-                  <div className="grid grid-cols-3 gap-2 bg-emerald-950/60 p-1 rounded-xl border border-emerald-900/40 w-full sm:w-auto">
+                  <div className="grid grid-cols-3 gap-1 sm:gap-2 bg-emerald-950/60 p-1 rounded-xl border border-emerald-900/40 w-full sm:w-auto">
                     {/* Prayed Button */}
                     <button
                       onClick={() => handleStatusChange(prayer, 'prayed')}
-                      className={`flex items-center justify-center space-x-1 py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      className={`flex items-center justify-center space-x-0.5 sm:space-x-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-[10px] sm:text-xs font-bold transition-all cursor-pointer ${
                         currentStatus === 'prayed'
                           ? 'bg-[#10B981] text-emerald-950 shadow-md shadow-[#10B981]/25'
                           : 'text-[#94A3B8] hover:text-white'
                       }`}
                     >
-                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      <CheckCircle2 className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
                       <span>Prayed</span>
                     </button>
 
                     {/* Missed Button */}
                     <button
                       onClick={() => handleStatusChange(prayer, 'missed')}
-                      className={`flex items-center justify-center space-x-1 py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      className={`flex items-center justify-center space-x-0.5 sm:space-x-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-[10px] sm:text-xs font-bold transition-all cursor-pointer ${
                         currentStatus === 'missed'
                           ? 'bg-red-500 text-white shadow-md shadow-red-500/25'
                           : 'text-[#94A3B8] hover:text-white'
                       }`}
                     >
-                      <AlertTriangle className="h-3.5 w-3.5" />
+                      <AlertTriangle className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
                       <span>Missed</span>
                     </button>
 
                     {/* Pending Button */}
                     <button
                       onClick={() => handleStatusChange(prayer, 'pending')}
-                      className={`flex items-center justify-center space-x-1 py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      className={`flex items-center justify-center space-x-0.5 sm:space-x-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-[10px] sm:text-xs font-bold transition-all cursor-pointer ${
                         currentStatus === 'pending'
                           ? 'bg-slate-700 text-[#E2E8F0] shadow-md shadow-slate-900/30'
                           : 'text-[#94A3B8] hover:text-white'
                       }`}
                     >
-                      <HelpCircle className="h-3.5 w-3.5" />
+                      <HelpCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
                       <span>Pending</span>
                     </button>
                   </div>

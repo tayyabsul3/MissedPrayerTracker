@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Bell, ShieldAlert, Download, Upload, RefreshCw, Info } from 'lucide-react';
+import { User, Bell, ShieldAlert, Download, Upload, RefreshCw, Info, Heart, Copy, Check } from 'lucide-react';
 import { 
   getUserProfile, 
   saveUserProfile, 
@@ -18,6 +18,16 @@ export const Settings: React.FC<SettingsProps> = ({ onProfileChange }) => {
   const [profile, setProfile] = useState<UserProfile>(getUserProfile());
   const [nameInput, setNameInput] = useState(profile.name);
   const [importStatus, setImportStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
+  const [showSupport, setShowSupport] = useState(false);
+  const [donationAmount, setDonationAmount] = useState<string>('500');
+  const [customAmount, setCustomAmount] = useState<string>('');
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText('03145116290');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     setNameInput(profile.name);
@@ -140,11 +150,11 @@ export const Settings: React.FC<SettingsProps> = ({ onProfileChange }) => {
                 placeholder="Enter your name"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
-                className="flex-1 bg-emerald-950/60 border border-emerald-900/40 rounded-xl px-4 py-2 text-sm text-[#E2E8F0] focus:outline-none focus:border-[#D4AF37] placeholder-emerald-800"
+                className="flex-1 min-w-0 bg-emerald-950/60 border border-emerald-900/40 rounded-xl px-4 py-2 text-sm text-[#E2E8F0] focus:outline-none focus:border-[#D4AF37] placeholder-emerald-800"
               />
               <button
                 type="submit"
-                className="bg-[#D4AF37] text-emerald-950 font-bold px-4 py-2 rounded-xl text-xs hover:bg-[#D4AF37]/90 transition-all active:scale-95 cursor-pointer"
+                className="bg-[#D4AF37] text-emerald-950 font-bold px-4 py-2 rounded-xl text-xs hover:bg-[#D4AF37]/90 transition-all active:scale-95 cursor-pointer shrink-0"
               >
                 Save
               </button>
@@ -161,14 +171,14 @@ export const Settings: React.FC<SettingsProps> = ({ onProfileChange }) => {
         </h3>
 
         <div className="flex justify-between items-center py-2 border-b border-emerald-900/20">
-          <div>
+          <div className="pr-4">
             <div className="text-xs font-bold text-white">Track Witr Prayer</div>
             <div className="text-[10px] text-[#94A3B8] mt-0.5">Include Witr in missed prayer calculations (Hanafi school)</div>
           </div>
           
           <button
             onClick={handleWitrToggle}
-            className={`w-11 h-6 rounded-full transition-all duration-300 relative focus:outline-none cursor-pointer ${
+            className={`w-11 h-6 rounded-full transition-all duration-300 relative focus:outline-none cursor-pointer shrink-0 ${
               profile.trackWitr ? 'bg-[#10B981]' : 'bg-emerald-950/80 border border-emerald-900/40'
             }`}
           >
@@ -190,14 +200,14 @@ export const Settings: React.FC<SettingsProps> = ({ onProfileChange }) => {
 
         <div className="space-y-4">
           <div className="flex justify-between items-center py-2 border-b border-emerald-900/20">
-            <div>
+            <div className="pr-4">
               <div className="text-xs font-bold text-white">Friendly Reminders</div>
               <div className="text-[10px] text-[#94A3B8] mt-0.5">Enable local notification alerts to prompt daily logs</div>
             </div>
             
             <button
               onClick={() => requestNotificationPermission(!profile.notificationsEnabled)}
-              className={`w-11 h-6 rounded-full transition-all duration-300 relative focus:outline-none cursor-pointer ${
+              className={`w-11 h-6 rounded-full transition-all duration-300 relative focus:outline-none cursor-pointer shrink-0 ${
                 profile.notificationsEnabled ? 'bg-[#10B981]' : 'bg-emerald-950/80 border border-emerald-900/40'
               }`}
             >
@@ -262,6 +272,99 @@ export const Settings: React.FC<SettingsProps> = ({ onProfileChange }) => {
           }`}>
             {importStatus.type === 'success' && <RefreshCw className="h-3.5 w-3.5 inline animate-spin mr-1.5" />}
             {importStatus.message}
+          </div>
+        )}
+      </div>
+
+      {/* Support Developer Section */}
+      <div className="glass-panel rounded-2xl p-5 border border-emerald-900/40 bg-gradient-to-br from-emerald-950/20 to-transparent">
+        <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider mb-2 flex items-center">
+          <Heart className="h-4.5 w-4.5 mr-2 text-rose-500 fill-rose-500/20" />
+          Support the Developer
+        </h3>
+        <p className="text-[10px] text-[#94A3B8] mb-4">
+          This app is built to serve the Ummah, 100% free of ads. Consider supporting developer work as Sadaqah Jariyah.
+        </p>
+
+        {!showSupport ? (
+          <button
+            onClick={() => setShowSupport(true)}
+            className="w-full py-2.5 bg-emerald-950/60 border border-emerald-900/40 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/50 active:scale-95 transition-all text-[#D4AF37] rounded-xl text-xs font-bold cursor-pointer"
+          >
+            Become a Supporter
+          </button>
+        ) : (
+          <div className="space-y-4 animate-fade-in">
+            <div className="space-y-2">
+              <label className="block text-[10px] uppercase text-[#94A3B8] font-bold">Select Donation Amount</label>
+              <div className="grid grid-cols-4 gap-2">
+                {['100', '500', '1000'].map((amt) => (
+                  <button
+                    key={amt}
+                    type="button"
+                    onClick={() => {
+                      setDonationAmount(amt);
+                      setCustomAmount('');
+                    }}
+                    className={`py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                      donationAmount === amt && !customAmount
+                        ? 'bg-[#D4AF37] border-[#D4AF37] text-emerald-950 shadow-md shadow-[#D4AF37]/25'
+                        : 'bg-emerald-950/60 border-emerald-900/40 text-[#94A3B8] hover:text-white'
+                    }`}
+                  >
+                    Rs. {amt}
+                  </button>
+                ))}
+                <input
+                  type="number"
+                  placeholder="Other"
+                  value={customAmount}
+                  onChange={(e) => {
+                    setCustomAmount(e.target.value);
+                    setDonationAmount('');
+                  }}
+                  className={`w-full text-center text-xs font-bold bg-emerald-950/60 border rounded-xl p-2 text-white focus:outline-none focus:border-[#D4AF37] placeholder-emerald-800 ${
+                    customAmount ? 'border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]' : 'border-emerald-900/40'
+                  }`}
+                />
+              </div>
+            </div>
+
+            <div className="p-4 bg-emerald-950/80 border border-emerald-900/50 rounded-xl space-y-3">
+              <div className="text-center pb-2 border-b border-emerald-900/20">
+                <span className="text-[10px] uppercase text-[#94A3B8] font-bold block">Support Value</span>
+                <span className="text-lg font-bold text-white font-outfit">
+                  Rs. {customAmount || donationAmount || '0'}
+                </span>
+              </div>
+
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between items-center">
+                  <span className="text-[#94A3B8]">Bank Name:</span>
+                  <span className="font-bold text-white">NayaPay</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#94A3B8]">Account Number:</span>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="font-bold text-white font-outfit">03145116290</span>
+                    <button
+                      onClick={handleCopy}
+                      className="p-1 rounded bg-emerald-900/40 hover:bg-emerald-900 text-[#D4AF37] transition-all cursor-pointer flex items-center justify-center shrink-0"
+                      title="Copy Account Number"
+                    >
+                      {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowSupport(false)}
+              className="w-full py-2 text-center text-[10px] text-[#94A3B8] hover:text-white cursor-pointer transition-colors"
+            >
+              Close Support Panel
+            </button>
           </div>
         )}
       </div>

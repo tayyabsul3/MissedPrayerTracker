@@ -79,7 +79,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
     <div className="w-full min-h-screen bg-[#022c22] text-[#e2e8f0] font-sans selection:bg-[#d4af37]/30 flex flex-col justify-between overflow-x-hidden">
       
       {/* 1. Floating Responsive Navbar */}
-      <nav className="fixed top-4 left-4 right-4 max-w-6xl mx-auto rounded-2xl navbar-glass z-50 transition-all duration-300">
+      <nav className="fixed top-4 left-4 right-4 max-w-6xl mx-auto rounded-3xl navbar-glass z-50 transition-all duration-300">
         <div className="px-6 py-4 flex justify-between items-center">
           {/* Logo & Identity */}
           <div className="flex items-center space-x-3">

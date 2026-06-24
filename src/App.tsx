@@ -125,7 +125,7 @@ function App() {
         </main>
 
         {/* Bottom Navigation Bar */}
-        <nav className="fixed bottom-4 left-4 right-4 max-w-md md:max-w-lg mx-auto navbar-glass z-50 overflow-hidden">
+        <nav className="fixed bottom-4 left-4 right-4 max-w-md md:max-w-lg mx-auto navbar-glass rounded-3xl z-50 overflow-hidden">
           <div className="grid grid-cols-5 h-16">
             
             {/* Dashboard Tab */}
