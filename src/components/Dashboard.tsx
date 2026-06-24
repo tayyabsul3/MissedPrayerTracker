@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Minus, RefreshCw, Award, BookOpen, Sparkles, Check, X } from 'lucide-react';
+import { Plus, Minus, RefreshCw, Award, BookOpen, Sparkles, Check, X, History } from 'lucide-react';
 import { 
   getPrayerCounts, 
   savePrayerCounts, 
-  addHistoryEntry 
+  addHistoryEntry,
+  getHistoryLog
 } from '../db/storage';
-import type { PrayerCounts, UserProfile } from '../db/storage';
+import type { PrayerCounts, UserProfile, HistoryEntry } from '../db/storage';
 import { getRandomHadith } from '../data/hadiths';
 import type { Hadith } from '../data/hadiths';
 
@@ -31,9 +32,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ profile, onDataChange }) =
   const [editValue, setEditValue] = useState<string>('');
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationMessage, setCelebrationMessage] = useState('');
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
 
   useEffect(() => {
     setCounts(getPrayerCounts());
+    setHistory(getHistoryLog().slice(0, 4));
   }, [profile]);
 
   const handleDecrement = (prayer: keyof PrayerCounts) => {
@@ -43,6 +46,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ profile, onDataChange }) =
     setCounts(newCounts);
     savePrayerCounts(newCounts);
     addHistoryEntry(prayer, 'completed', 1);
+    setHistory(getHistoryLog().slice(0, 4));
     onDataChange();
 
     // Show quick motivation
@@ -56,6 +60,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ profile, onDataChange }) =
     setCounts(newCounts);
     savePrayerCounts(newCounts);
     addHistoryEntry(prayer, 'added', 1);
+    setHistory(getHistoryLog().slice(0, 4));
     onDataChange();
   };
 
@@ -89,6 +94,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ profile, onDataChange }) =
     }
 
     setEditingPrayer(null);
+    setHistory(getHistoryLog().slice(0, 4));
     onDataChange();
   };
 
@@ -113,188 +119,255 @@ export const Dashboard: React.FC<DashboardProps> = ({ profile, onDataChange }) =
         </div>
       )}
 
-      {/* Header Welcome banner */}
-      <div className="relative glass-panel rounded-2xl p-6 overflow-hidden border border-emerald-900/40">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl"></div>
+      {/* Main Responsive Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
-        <div className="relative z-10 flex flex-col justify-between md:flex-row md:items-center">
-          <div>
-            <h2 className="text-xs uppercase tracking-widest text-[#D4AF37] font-semibold">Assalamu Alaikum</h2>
-            <h1 className="text-2xl font-extrabold text-[#E2E8F0] font-outfit mt-1">
-              {profile.name ? profile.name : 'Brother / Sister'}
-            </h1>
-            <p className="text-xs text-[#94A3B8] mt-2">
-              "Establish prayer, for indeed prayer prevents immorality and wrongdoing."
-            </p>
-          </div>
-          <div className="mt-4 md:mt-0 flex items-center space-x-4 bg-emerald-950/50 border border-emerald-800/30 rounded-xl px-4 py-3">
-            <Award className="h-8 w-8 text-[#D4AF37]" />
-            <div>
-              <div className="text-2xl font-bold font-outfit text-[#D4AF37]">{totalMissed}</div>
-              <div className="text-[10px] uppercase text-[#94A3B8]">Total Missed</div>
+        {/* Welcome Header: Full Width on Desktop/Tablet/Mobile */}
+        <div className="lg:col-span-3">
+          <div className="relative glass-panel rounded-2xl p-6 overflow-hidden border border-emerald-900/40">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl"></div>
+            
+            <div className="relative z-10 flex flex-col justify-between md:flex-row md:items-center">
+              <div>
+                <h2 className="text-xs uppercase tracking-widest text-[#D4AF37] font-semibold">Assalamu Alaikum</h2>
+                <h1 className="text-2xl font-extrabold text-[#E2E8F0] font-outfit mt-1">
+                  {profile.name ? profile.name : 'Brother / Sister'}
+                </h1>
+                <p className="text-xs text-[#94A3B8] mt-2">
+                  "Establish prayer, for indeed prayer prevents immorality and wrongdoing."
+                </p>
+              </div>
+              <div className="mt-4 md:mt-0 flex items-center space-x-4 bg-emerald-950/50 border border-emerald-800/30 rounded-xl px-4 py-3 shrink-0">
+                <Award className="h-8 w-8 text-[#D4AF37]" />
+                <div>
+                  <div className="text-2xl font-bold font-outfit text-[#D4AF37]">{totalMissed}</div>
+                  <div className="text-[10px] uppercase text-[#94A3B8]">Total Missed</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Prayer Qaza Tracker Grid */}
-      <div>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider">Missed Prayers (Qaza)</h3>
-          <span className="text-xs text-[#94A3B8]">Tap count to edit directly</span>
-        </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {activePrayers.map((prayer) => {
-            const currentCount = counts[prayer];
-            const isEditing = editingPrayer === prayer;
-            const names = PRAYER_NAMES[prayer];
+        {/* Left Column: Prayer Qaza Grid */}
+        <div className="lg:col-span-2 space-y-3">
+          <div className="flex justify-between items-center">
+            <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider">Missed Prayers (Qaza)</h3>
+            <span className="text-xs text-[#94A3B8]">Tap count to edit directly</span>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3">
+            {activePrayers.map((prayer) => {
+              const currentCount = counts[prayer];
+              const isEditing = editingPrayer === prayer;
+              const names = PRAYER_NAMES[prayer];
 
-            return (
-              <div
-                key={prayer}
-                className={`relative glass-panel rounded-2xl overflow-hidden transition-all duration-300 ${
-                  currentCount > 0 
-                    ? 'border-emerald-800/40' 
-                    : 'border-emerald-950/20 opacity-70'
-                }`}
-              >
-                {/* Background Tint */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${names.color} opacity-40`}></div>
-                
-                <div className="relative z-10 p-4 flex flex-col h-full justify-between">
-                  {/* Name and Arabic Name */}
-                  <div className="flex justify-between items-start">
-                    <span className="text-base font-bold font-outfit text-[#E2E8F0]">
-                      {names.en}
-                    </span>
-                    <span className="text-xs font-amiri font-semibold text-[#D4AF37]/80">
-                      {names.ar}
-                    </span>
-                  </div>
+              return (
+                <div
+                  key={prayer}
+                  className={`relative glass-panel rounded-2xl overflow-hidden transition-all duration-300 ${
+                    currentCount > 0 
+                      ? 'border-emerald-800/40' 
+                      : 'border-emerald-950/20 opacity-70'
+                  }`}
+                >
+                  {/* Background Tint */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${names.color} opacity-40`}></div>
+                  
+                  <div className="relative z-10 p-4 flex flex-col h-full justify-between">
+                    {/* Name and Arabic Name */}
+                    <div className="flex justify-between items-start">
+                      <span className="text-base font-bold font-outfit text-[#E2E8F0]">
+                        {names.en}
+                      </span>
+                      <span className="text-xs font-amiri font-semibold text-[#D4AF37]/80">
+                        {names.ar}
+                      </span>
+                    </div>
 
-                  {/* Count Display or Edit Form */}
-                  <div className="my-3 flex justify-center items-center h-14">
-                    {isEditing ? (
-                      <div className="flex items-center space-x-1">
-                        <input
-                          type="number"
-                          className="w-16 text-center text-xl font-bold font-outfit bg-emerald-950/80 border border-[#D4AF37] rounded-lg p-1 text-[#E2E8F0] focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
-                          value={editValue}
-                          onChange={(e) => setEditValue(e.target.value)}
-                          autoFocus
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') saveEdit();
-                            if (e.key === 'Escape') setEditingPrayer(null);
-                          }}
-                        />
-                        <button 
-                          onClick={saveEdit} 
-                          className="p-1 bg-[#10B981] rounded-md text-emerald-950 hover:bg-[#10B981]/80 cursor-pointer"
+                    {/* Count Display or Edit Form */}
+                    <div className="my-3 flex justify-center items-center h-14">
+                      {isEditing ? (
+                        <div className="flex items-center space-x-1">
+                          <input
+                            type="number"
+                            className="w-14 text-center text-lg font-bold font-outfit bg-emerald-950/80 border border-[#D4AF37] rounded-lg p-1 text-[#E2E8F0] focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') saveEdit();
+                              if (e.key === 'Escape') setEditingPrayer(null);
+                            }}
+                          />
+                          <button 
+                            onClick={saveEdit} 
+                            className="p-1 bg-[#10B981] rounded-md text-emerald-950 hover:bg-[#10B981]/80 cursor-pointer"
+                          >
+                            <Check className="h-3.5 w-3.5" />
+                          </button>
+                          <button 
+                            onClick={() => setEditingPrayer(null)} 
+                            className="p-1 bg-red-500/20 rounded-md text-red-400 hover:bg-red-500/30 cursor-pointer"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div 
+                          onClick={() => startEditing(prayer)}
+                          className="text-4xl font-extrabold font-outfit text-white cursor-pointer hover:text-[#D4AF37] transition-colors duration-150 relative group"
+                          title="Click to edit"
                         >
-                          <Check className="h-4 w-4" />
-                        </button>
-                        <button 
-                          onClick={() => setEditingPrayer(null)} 
-                          className="p-1 bg-red-500/20 rounded-md text-red-400 hover:bg-red-500/30 cursor-pointer"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div 
-                        onClick={() => startEditing(prayer)}
-                        className="text-4xl font-extrabold font-outfit text-white cursor-pointer hover:text-[#D4AF37] transition-colors duration-150 relative group"
-                        title="Click to edit"
+                          {currentCount}
+                          <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-[9px] text-[#D4AF37] uppercase tracking-wide font-normal transition-all">
+                            Edit
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex flex-col space-y-2 w-full">
+                      <button
+                        onClick={() => handleDecrement(prayer)}
+                        disabled={currentCount <= 0 || isEditing}
+                        className={`w-full flex justify-center items-center py-2 rounded-xl transition-all duration-200 cursor-pointer text-xs font-bold ${
+                          currentCount > 0 
+                            ? 'bg-[#10B981]/20 border border-[#10B981]/40 text-[#10B981] hover:bg-[#10B981]/30 active:scale-95' 
+                            : 'bg-emerald-950/20 border border-emerald-900/10 text-emerald-900/40 cursor-not-allowed'
+                        }`}
+                        title="Made up (Decrements count)"
                       >
-                        {currentCount}
-                        <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-[9px] text-[#D4AF37] uppercase tracking-wide font-normal transition-all">
-                          Edit
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex justify-between items-center space-x-2">
-                    <button
-                      onClick={() => handleDecrement(prayer)}
-                      disabled={currentCount <= 0 || isEditing}
-                      className={`flex-1 flex justify-center items-center py-2 rounded-xl transition-all duration-200 cursor-pointer ${
-                        currentCount > 0 
-                          ? 'bg-[#10B981]/20 border border-[#10B981]/40 text-[#10B981] hover:bg-[#10B981]/30 active:scale-95' 
-                          : 'bg-emerald-950/20 border border-emerald-900/10 text-emerald-900/40 cursor-not-allowed'
-                      }`}
-                      title="Made up (Decrements count)"
-                    >
-                      <Minus className="h-4 w-4" />
-                      <span className="ml-1 text-xs font-semibold">Make Up</span>
-                    </button>
-                    
-                    <button
-                      onClick={() => handleIncrement(prayer)}
-                      disabled={isEditing}
-                      className="p-2 rounded-xl bg-emerald-950/40 border border-emerald-800/30 text-[#D4AF37] hover:bg-[#D4AF37]/10 active:scale-95 transition-all cursor-pointer"
-                      title="Add missed"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </button>
+                        <Minus className="h-3.5 w-3.5 mr-1" />
+                        <span>Make Up</span>
+                      </button>
+                      
+                      <button
+                        onClick={() => handleIncrement(prayer)}
+                        disabled={isEditing}
+                        className="w-full flex justify-center items-center py-2 rounded-xl bg-emerald-950/40 border border-emerald-800/30 text-[#D4AF37] hover:bg-[#D4AF37]/10 active:scale-95 transition-all cursor-pointer text-xs font-bold"
+                        title="Add missed"
+                      >
+                        <Plus className="h-3.5 w-3.5 mr-1" />
+                        <span>Add Missed</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Column: Hadith of the Day & Recent Activity */}
+        <div className="lg:col-span-1 space-y-6">
+          
+          <div className="space-y-3">
+            <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider">Hadith of the Day</h3>
+            
+            <div className="relative glass-panel rounded-2xl p-6 border border-emerald-900/40 flex flex-col justify-between">
+              <div className="absolute top-2 right-2">
+                <button
+                  onClick={changeHadith}
+                  className="p-2 rounded-full text-[#94A3B8] hover:text-[#D4AF37] hover:bg-emerald-950/40 transition-all duration-200 cursor-pointer"
+                  title="Next Hadith"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </button>
               </div>
-            );
-          })}
-        </div>
-      </div>
+              
+              <div className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#D4AF37] mb-4">
+                <BookOpen className="h-4 w-4" />
+                <span>Authentic Reminder</span>
+              </div>
 
-      {/* Hadith of the Day Card */}
-      <div className="relative glass-panel rounded-2xl p-6 border border-emerald-900/40">
-        <div className="absolute top-2 right-2">
-          <button
-            onClick={changeHadith}
-            className="p-2 rounded-full text-[#94A3B8] hover:text-[#D4AF37] hover:bg-emerald-950/40 transition-all duration-200 cursor-pointer"
-            title="Next Hadith"
-          >
-            <RefreshCw className="h-4 w-4" />
-          </button>
-        </div>
-        
-        <div className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#D4AF37] mb-4">
-          <BookOpen className="h-4 w-4" />
-          <span>Authentic Reminder</span>
-        </div>
+              <div className="space-y-4 flex-1">
+                {hadith.arabic && (
+                  <p className="text-xl font-amiri text-[#D4AF37] leading-relaxed text-right font-medium pr-2">
+                    {hadith.arabic}
+                  </p>
+                )}
+                
+                <p className="text-sm text-[#E2E8F0] italic leading-relaxed pl-3 border-l-2 border-[#D4AF37]/40">
+                  "{hadith.text}"
+                </p>
+                
+                <p className="text-[10px] text-right uppercase text-[#94A3B8] font-bold">
+                  — {hadith.source}
+                </p>
+              </div>
 
-        <div className="space-y-4">
-          {hadith.arabic && (
-            <p className="text-xl font-amiri text-[#D4AF37] leading-relaxed text-right font-medium pr-2">
-              {hadith.arabic}
-            </p>
-          )}
-          
-          <p className="text-sm text-[#E2E8F0] italic leading-relaxed pl-3 border-l-2 border-[#D4AF37]/40">
-            "{hadith.text}"
-          </p>
-          
-          <p className="text-[10px] text-right uppercase text-[#94A3B8] font-bold">
-            — {hadith.source}
-          </p>
-        </div>
-
-        {/* Dynamic Warning Indicator based on Hadith category */}
-        {hadith.category === 'warning' && (
-          <div className="mt-4 p-3 bg-red-950/30 border border-red-900/30 rounded-xl text-center">
-            <p className="text-[10px] text-red-400 font-bold uppercase tracking-wider">
-              ⚠️ Warning regarding abandoning prayer
-            </p>
+              {/* Dynamic Warning Indicator based on Hadith category */}
+              <div className="mt-6">
+                {hadith.category === 'warning' && (
+                  <div className="p-3 bg-red-950/30 border border-red-900/30 rounded-xl text-center">
+                    <p className="text-[10px] text-red-400 font-bold uppercase tracking-wider">
+                      ⚠️ Warning regarding abandoning prayer
+                    </p>
+                  </div>
+                )}
+                {hadith.category === 'reminder' && (
+                  <div className="p-3 bg-emerald-950/30 border border-emerald-900/30 rounded-xl text-center">
+                    <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
+                      ✨ Expiation & Mercy reminder
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-        )}
-        {hadith.category === 'reminder' && (
-          <div className="mt-4 p-3 bg-emerald-950/30 border border-emerald-900/30 rounded-xl text-center">
-            <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
-              ✨ Expiation & Mercy reminder
-            </p>
+
+          {/* Recent Activity Widget */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider flex items-center">
+              <History className="h-4 w-4 mr-2" />
+              <span>Recent Activity</span>
+            </h3>
+            <div className="glass-panel rounded-2xl p-5 border border-emerald-900/40">
+              {history.length === 0 ? (
+                <div className="text-center py-4 text-[#94A3B8] text-xs">
+                  <span>No adjustments logged.</span>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {history.map((entry) => {
+                    const isDecremented = entry.type === 'completed';
+                    const isReset = entry.type === 'reset';
+                    
+                    // Simple prayer name maps for logs
+                    const label = entry.prayer.charAt(0).toUpperCase() + entry.prayer.slice(1);
+                    
+                    return (
+                      <div
+                        key={entry.id}
+                        className="bg-emerald-950/40 border border-emerald-900/20 rounded-xl p-3 flex justify-between items-center text-xs"
+                      >
+                        <div>
+                          <span className="font-bold text-[#E2E8F0] block">
+                            {isReset 
+                              ? `Reset ${label}` 
+                              : isDecremented 
+                              ? `Made up ${entry.amount} ${label}` 
+                              : `Added ${entry.amount} missed ${label}`}
+                          </span>
+                          <span className="text-[9px] text-[#94A3B8] font-semibold">
+                            {entry.dateStr}
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-bold text-[#D4AF37] font-outfit uppercase">
+                          {new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-        )}
+
+        </div>
+
       </div>
     </div>
   );

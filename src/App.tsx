@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="min-h-screen bg-[#022c22] text-[#e2e8f0] font-sans flex flex-col items-center justify-start pb-24 selection:bg-[#d4af37]/30">
       {/* App Container */}
-      <div className="w-full max-w-md px-4 flex flex-col min-h-screen relative">
+      <div className="w-full max-w-md md:max-w-3xl lg:max-w-5xl px-4 flex flex-col min-h-screen relative">
         
         {/* Elegant Islamic Header */}
         <header className="py-5 flex items-center justify-between border-b border-emerald-950/40 mb-6 bg-[#022c22]/80 backdrop-blur-md sticky top-0 z-40">
@@ -78,7 +78,7 @@ function App() {
           <div className="px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-900/30">
             <span className="text-[10px] text-[#10b981] font-extrabold flex items-center space-x-1">
               <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse mr-1"></span>
-              PWA Mode
+              Offline Ready
             </span>
           </div>
         </header>
@@ -125,7 +125,7 @@ function App() {
         </main>
 
         {/* Bottom Navigation Bar */}
-        <nav className="fixed bottom-4 left-4 right-4 max-w-md mx-auto glass-panel-active rounded-2xl border border-[#d4af37]/25 shadow-2xl z-50 overflow-hidden">
+        <nav className="fixed bottom-4 left-4 right-4 max-w-md md:max-w-lg mx-auto glass-panel-active rounded-2xl border border-[#d4af37]/25 shadow-2xl z-50 overflow-hidden">
           <div className="grid grid-cols-5 h-16">
             
             {/* Dashboard Tab */}

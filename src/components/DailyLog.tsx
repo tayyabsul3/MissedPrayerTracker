@@ -207,7 +207,7 @@ export const DailyLog: React.FC<DailyLogProps> = ({ profile, onDataChange }) => 
         <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider">Prayers Checklist</h3>
         
         {tracker && (
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {activePrayers.map((prayer) => {
               const currentStatus = tracker.prayers[prayer];
               const labels = PRAYER_LABELS[prayer];
