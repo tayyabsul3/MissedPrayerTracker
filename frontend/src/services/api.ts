@@ -1,14 +1,14 @@
 import axios from 'axios'
 
-// Dynamically determine backend URL based on current host (supports mobile testing on local Wi-Fi)
+// Dynamically determine backend URL
 const getApiBaseUrl = () => {
-  if (typeof window !== 'undefined' && window.location.hostname) {
-    const port = '8000'
-    const protocol = window.location.protocol
-    const host = window.location.hostname
-    return `${protocol}//${host}:${port}`
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL
   }
-  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+  if (typeof window !== 'undefined' && window.location.hostname && window.location.hostname !== 'localhost') {
+    return `${window.location.protocol}//${window.location.hostname}:8000`
+  }
+  return 'http://localhost:8000'
 }
 
 const api = axios.create({

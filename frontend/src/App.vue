@@ -9,7 +9,6 @@ import {
   Sparkles,
   History as HistoryIcon,
   Settings as SettingsIcon,
-  Heart,
   User,
   LogOut,
   ChevronDown,
@@ -139,14 +138,12 @@ onUnmounted(() => {
           </button>
         </div>
 
-        <p class="text-center text-[10px] text-emerald-500/60 flex items-center justify-center gap-1">
-          Made with <Heart class="w-2.5 h-2.5 text-red-500" /> for the Ummah
-        </p>
+
       </div>
     </aside>
 
     <!-- MAIN CONTENT CONTAINER (Aligned with responsive padding) -->
-    <div :class="['flex-1 flex flex-col min-h-screen relative w-full', !isPublicRoute ? 'md:pl-64' : '']">
+    <div :class="['flex-1 flex flex-col h-screen overflow-hidden relative w-full', !isPublicRoute ? 'md:pl-64' : '']">
       
       <!-- Top Mobile/Tablet Header -->
       <header
@@ -219,7 +216,12 @@ onUnmounted(() => {
       </header>
 
       <!-- VIEW SLOT -->
-      <main :class="['flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 animate-fade-in', (route.path === '/ai' || route.path === '/quran') ? 'pb-4 flex flex-col' : 'pb-28 md:pb-12']">
+      <main :class="[
+        'flex-1 w-full mx-auto animate-fade-in',
+        (route.path === '/ai' || route.path === '/quran')
+          ? 'flex flex-col overflow-hidden h-full px-3 sm:px-5 lg:px-8 pt-3 pb-3 max-w-5xl'
+          : 'max-w-5xl px-4 sm:px-6 lg:px-8 py-4 pb-28 md:pb-12 overflow-y-auto'
+      ]">
         <RouterView />
       </main>
 
