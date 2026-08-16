@@ -1,103 +1,169 @@
-# 🕌 Qaza Tracker - Missed Prayer Tracker PWA
+# 🕌 Qaza Tracker — Full-Stack Missed Prayer Tracker & Spiritual Companion
 
-A premium, mobile-first Progressive Web App (PWA) designed to help Muslims log, track, and make up missed prayers (Qaza). Built with **React**, **TypeScript**, and **Tailwind CSS v4**, using **Local Storage** as a scalable database layer. 
+A modern, full-stack Islamic Progressive Web Application (PWA) designed to help Muslims calculate, track, and consistently fulfill missed obligatory prayers (**Qaza Salah**) with steadfastness (*Istiqamah*), spiritual motivation, and peace of mind.
 
-The application is styled with a gorgeous, high-contrast **Islamic Emerald & Gold Glassmorphic aesthetic** and features authentic Hadith reminders (warnings and encouragements) to motivate consistent prayers.
-
----
-
-## ✨ Key Features
-
-* **📈 Qaza Dashboard**: View total missed prayers at a glance. Easily increment (`+1`) or decrement (`-1` / Make Up) counts. Tap on any count to edit the value directly.
-* **📅 Daily Prayer Log**: A 3-way checklist (Prayed, Missed, Pending) for today, yesterday, or any past date. Marking a prayer as **Missed** automatically increments the dashboard Qaza counter. Correcting a mistake automatically decrements it.
-* **📖 Authentic Hadiths**: Real-time reminders featuring authentic Hadiths from *Sahih al-Bukhari*, *Sahih Muslim*, and *Sunan at-Tirmidhi*. Hadiths are split into **Warnings** (reminding of the gravity of leaving prayer) and **Reminders** (mercy, ease of making up, and repentance).
-* **🔔 Friendly Reminders & PWA**: Install the app directly on your iOS or Android home screen. Supports offline usage and browser-native push notifications for daily reminders.
-* **💾 Data Backup & Restore**: Export all data (Qaza counts, profile settings, daily logs, and history) into a portable JSON backup file. Import it on any device to restore progress.
-* **🛡️ Security & Privacy**: No servers involved. All your tracking data is stored completely offline inside your local browser database.
+Built with **Vue 3**, **FastAPI**, **PostgreSQL (Neon)**, **Google Identity Services**, and powered by **Gemini 3.5 Flash** for holistic spiritual & lifestyle mentorship.
 
 ---
 
-## 🛠️ Technology Stack
+## ✨ Features Overview
 
-* **Core**: React 19, TypeScript
-* **Styling**: Tailwind CSS v4 (using CSS variables, `@theme` configuration, and Outfit/Amiri typography)
-* **Icons**: Lucide React (Premium, consistent SVG icons)
-* **PWA Engine**: `vite-plugin-pwa` (Vite Progressive Web App compiler)
-* **Dev Server/Build System**: Vite 8
+### 1. 📊 Smart Qaza & Daily Salah Tracking
+- **Historical Qaza Debt Tracker**: Track debt across all 5 obligatory Fard prayers (**Fajr**, **Dhuhr**, **Asr**, **Maghrib**, **Isha**). Increment, decrement, or bulk-edit values with instant animated visual feedback.
+- **Daily 5-Prayer Salah Checklist**: Log daily prayer statuses (*Prayed*, *Missed*, *Pending*). Marking a prayer as **Missed** automatically rolls over `+1` into your historical Qaza balance.
+- **Calculated Local Prayer Times**: 12-Hour (AM/PM) and 24-Hour prayer times dynamically calculated for any city worldwide via the Aladhan API.
+
+### 2. 📖 16-Line Classical Quran Reader (Dual-Page Stack)
+- **Minimalist 3-Button Hub**:
+  - 📖 **Resume Reading**: 1-click jump to last read Page (1–604), Surah, and Juz.
+  - 📑 **Surah Index**: Searchable directory of all 114 Surahs with exact starting pages.
+  - 📚 **Juz Index**: 30-Para directory with Arabic titles and instant navigation.
+- **Stacked Dual-Page Architecture**:
+  - **Top Page**: Authentic **16-line classical Arabic Mushaf page** with Surah headers, Bismillah, and Ayah end markers (۝).
+  - **Bottom Page**: Matching **continuous translation page** with inline numbered badges, mirroring the Arabic layout.
+- **Fixed Pagination Dock**: Floating Previous / Next controls, direct page input, and auto-hidden mobile app dock for undistracted reading.
+
+### 3. 🤖 AI Islamic Mentor & Life Guide (Gemini 3.5 Flash)
+- **Holistic Cause-and-Effect Mentorship**: Confide safely about personal struggles, spiritual dips, guilt, or habit lapses. Mentorship breaks down causes and actionable solutions across:
+  - 🌿 **Spiritual & Islamic**: Authentic Quranic Ayahs, Hadith citations, Rahmah (Allah's mercy), and Duas.
+  - 🧠 **Mental & Emotional**: Overcoming religious guilt, cognitive burnout, anxiety, and perfectionism paralysis.
+  - ⏰ **Physical & Lifestyle**: Sleep hygiene, alarm strategies, circadian biology, and micro-habits for waking up for Fajr.
+- **ChatGPT-Style Interface**: Multiline auto-resizing input without scrollbars, struggle suggestion chips, voice recognition (Web Speech API), and streaming markdown.
+
+### 4. 📈 History, Visual Analytics & AI Spiritual Reflection
+- **Salah Distribution Bars**: Visual breakdown of fulfilled Qaza prayers across each Salah.
+- **On-Demand AI Progress Reflection**: Generates a personalized spiritual motivation report with Hadiths praising your steadfastness.
+- **Activity Timeline**: Full filterable audit log of every prayer completed or missed.
+
+### 5. ⚙️ Rich App Customization & Settings
+- **App Font Size Scale**: Scale the entire application UI dynamically (**Small**, **Default**, **Large**, **XL**).
+- **Prayer Calculation Methods**: University of Islamic Sciences Karachi, MWL, ISNA, Umm Al-Qura Makkah, Egyptian Authority, Tehran.
+- **Asr Juristic Methods**: Hanafi (Double Shadow) vs Standard (Shafi'i, Maliki, Hanbali).
+- **12-Hour / 24-Hour Toggle**: Switch prayer times format anytime.
+- **Push Notification Testing**: Browser WebPush VAPID subscription and test triggers.
 
 ---
 
-## 📂 Project Structure
+## 🛠️ Architecture & Tech Stack
 
 ```text
 MissedPrayerTracker/
-├── .agent/                  # AI Skill configuration
-├── design-system/           # Persisted global UI guidelines
-│   └── missedprayertracker/
-│       └── MASTER.md        # Emerald & Gold design specs
-├── public/                  # Static assets and PWA icons
-│   ├── favicon.ico
-│   ├── pwa-192x192.png
-│   └── pwa-512x512.png
-├── src/
-│   ├── components/          # App tabs
-│   │   ├── Dashboard.tsx    # Qaza grid & Hadith widget
-│   │   ├── DailyLog.tsx     # Checklist for daily prayer state
-│   │   ├── History.tsx      # Log of recent adjustments
-│   │   └── Settings.tsx     # Backup, profile, & notifications
-│   ├── data/
-│   │   └── hadiths.ts       # Curated authentic Hadiths
-│   ├── db/
-│   │   └── storage.ts       # Local Storage engine
-│   ├── App.tsx              # Root shell and navigation layout
-│   ├── index.css            # Tailwind directive & CSS variables
-│   └── main.tsx             # React DOM renderer
-├── index.html               # Main entry HTML with PWA meta tags
-├── package.json             # Build script & dependency manager
-├── tsconfig.json            # TypeScript rules config
-└── vite.config.ts           # Vite plugins and PWA configurations
+├── backend/                  # FastAPI async REST & SSE API
+│   ├── app/
+│   │   ├── api/v1/           # Auth, Users, Prayers, Quran, AI, Notifications
+│   │   ├── core/             # Security (JWT), Config (Pydantic), Database (SQLAlchemy 2.0)
+│   │   ├── models/           # PostgreSQL ORM Models
+│   │   └── schemas/          # Pydantic V2 Request/Response Schemas
+│   └── requirements.txt
+│
+├── frontend/                 # Vue 3 Single Page PWA
+│   ├── src/
+│   │   ├── assets/           # Global styles and branding
+│   │   ├── router/           # Vue Router navigation guards
+│   │   ├── services/         # Axios API client, Google OAuth GIS, SSE client
+│   │   ├── stores/           # Pinia Auth & Prayer stores
+│   │   ├── utils/            # Country & City database, location helpers
+│   │   └── views/            # Dashboard, DailyLog, Quran, AI, History, Settings, Auth
+│   ├── index.html            # Google GIS SDK & PWA meta
+│   └── package.json
 ```
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | Vue 3 (Composition API), Vite, TypeScript, Pinia, Tailwind CSS, Lucide Vue, Google Identity Services SDK |
+| **Backend** | Python 3.10+, FastAPI, SQLAlchemy 2.0 (Async), Asyncpg, Pydantic V2, PyWebPush, Google Generative AI (Gemini) |
+| **Database** | PostgreSQL Serverless (Neon) with SSL pooling |
+| **Authentication**| Native Google OAuth 2.0 (GIS) + JWT Bearer tokens |
+| **Notifications** | WebPush VAPID Protocol + Service Worker Background Sync |
 
 ---
 
-## 🚀 Getting Started & Local Setup
+## 🚀 Local Development Setup
 
-To run this application locally, ensure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
+### Prerequisites
+- **Node.js** 18+ and **npm**
+- **Python** 3.10+ and **pip**
+- A **PostgreSQL / Neon database** URL
 
-### 1. Clone the repository
+---
+
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/your-username/MissedPrayerTracker.git
 cd MissedPrayerTracker
 ```
 
-### 2. Install dependencies
+---
+
+### 2. Backend Setup
 ```bash
+cd backend
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+.\venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+cp .env.example .env
+```
+
+Edit `backend/.env` with your credentials:
+```ini
+DATABASE_URL=postgresql+asyncpg://username:password@your-host.neon.tech/neondb?ssl=require
+NEON_AUTH_SECRET=your_jwt_secret_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
+FRONTEND_URL=http://localhost:5173
+```
+
+Run database migrations & start the API server:
+```bash
+# Start backend on http://localhost:8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+---
+
+### 3. Frontend Setup
+```bash
+cd ../frontend
+
+# Install node dependencies
 npm install
+
+# Configure environment variables
+cp .env.example .env
 ```
 
-### 3. Start the local development server
-```bash
-npm run dev
+Edit `frontend/.env`:
+```ini
+VITE_API_BASE_URL=http://localhost:8000
+VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
 ```
-Open your browser and navigate to `http://localhost:5173`. You can open Browser DevTools and toggle **Device Toolbar** (`Ctrl+Shift+M` or `Cmd+Shift+M`) to view the application in mobile responsive mockups.
 
-### 4. Build for Production
-To bundle the static assets and generate the service worker manifest for hosting on Vercel, Netlify, or GitHub Pages, run:
+Start the Vite development server:
 ```bash
-npm run build
+npm run dev -- --host
 ```
-This generates the optimized static files inside the `dist/` directory, complete with service workers registered for offline capabilities.
+
+Open your browser at `http://localhost:5173` (or on your local network IP on mobile).
 
 ---
 
-## 📱 Mobile Installation (PWA)
-
-* **On iOS (Safari)**: Open the URL, tap the **Share** button, scroll down, and select **Add to Home Screen**.
-* **On Android (Chrome/Edge)**: Open the URL, tap the three-dot menu, and select **Install App** or **Add to Home Screen**.
-* Once installed, the app launches in standalone mode, hiding the browser address bar for a native app feel.
+## 📱 Mobile PWA Installation
+- **iOS (Safari)**: Tap **Share** $\rightarrow$ **Add to Home Screen**.
+- **Android (Chrome)**: Tap **Install App** or the three dots $\rightarrow$ **Add to Home screen**.
+- Launches in fullscreen standalone mode with native performance.
 
 ---
 
-## 📝 License
-
-This project is open-source and free to use. Made with love and sincerity for the Islamic Ummah. Feel free to fork and customize!
+## 📄 License
+This project is open-source under the [MIT License](LICENSE).
+May Allah accept our prayers and make the fulfillment of all missed obligations easy and blessed.
