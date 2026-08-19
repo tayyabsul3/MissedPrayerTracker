@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
-import { usersApi } from '@/services/api'
+import { usersApi, getApiBaseUrl } from '@/services/api'
 import { triggerNativeGoogleSignIn } from '@/services/googleAuth'
 
 export interface UserProfile {
@@ -17,16 +17,6 @@ export interface UserProfile {
   daily_reminder_time: string | null
   notifications_enabled: boolean
   joined_at: string
-}
-
-const getApiBaseUrl = () => {
-  if (typeof window !== 'undefined' && window.location.hostname) {
-    const port = '8000'
-    const protocol = window.location.protocol
-    const host = window.location.hostname
-    return `${protocol}//${host}:${port}`
-  }
-  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 }
 
 const API_BASE = getApiBaseUrl()
