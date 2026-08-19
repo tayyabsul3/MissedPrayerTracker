@@ -2,6 +2,11 @@ import axios from 'axios'
 
 // Dynamically determine backend URL
 export const getApiBaseUrl = () => {
+  // On HTTPS sites (e.g. Vercel deployment), use relative paths to leverage Vercel's API proxy rewrite.
+  // This avoids browser HTTPS -> HTTP Mixed Content blocks.
+  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    return ''
+  }
   if (import.meta.env.VITE_API_BASE_URL) {
     return import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')
   }
