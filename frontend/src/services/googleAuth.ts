@@ -10,7 +10,54 @@ declare global {
   }
 }
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
+// Default fallback client ID if env variable is not injected during build
+const GOOGLE_CLIENT_ID =
+  import.meta.env.VITE_GOOGLE_CLIENT_ID ||
+  '230253299719-4gn6bk0s1d4vmgs7pl7r56kt4042dau3.apps.googleusercontent.com'
+
+/**
+ * Dynamically loads the Google Identity Services SDK if not already present.
+ */
+function loadGsiScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (window.google?.accounts?.oauth2) {
+      return resolve()
+    }
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src="https://accounts.google.com/gsi/client"]'
+    )
+
+    if (existingScript) {
+      if (window.google?.accounts?.oauth2) {
+        return resolve()
+      }
+      existingScript.addEventListener('load', () => resolve(), { once: true })
+      existingScript.addEventListener('error', () => reject(new Error('Failed to load Google SDK')), { once: true })
+      // Poll briefly in case script loaded before listener attached
+      let checkCount = 0
+      const interval = setInterval(() => {
+        checkCount++
+        if (window.google?.accounts?.oauth2) {
+          clearInterval(interval)
+          resolve()
+        } else if (checkCount > 30) {
+          clearInterval(interval)
+          reject(new Error('Google Identity Services script timeout.'))
+        }
+      }, 100)
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
+    script.defer = true
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error('Failed to load Google Identity Services SDK.'))
+    document.head.appendChild(script)
+  })
+}
 
 export interface GoogleAuthResult {
   email: string
@@ -20,15 +67,22 @@ export interface GoogleAuthResult {
 }
 
 /**
- * Triggers the official, native Google Account Chooser popup or prompt.
+ * Triggers the official, native Google Account Chooser popup.
  */
 export async function triggerNativeGoogleSignIn(): Promise<GoogleAuthResult> {
+  // Ensure GIS script is loaded
+  try {
+    await loadGsiScript()
+  } catch (err) {
+    console.error('Failed to load GIS script:', err)
+  }
+
   return new Promise((resolve, reject) => {
     if (typeof window === 'undefined') {
       return reject(new Error('Window context is unavailable.'))
     }
 
-    // If Google Client ID is configured in .env, use official Google Identity Services
+    // Use official Google Identity Services popup
     if (GOOGLE_CLIENT_ID && window.google?.accounts?.oauth2) {
       try {
         const client = window.google.accounts.oauth2.initTokenClient({
@@ -51,10 +105,7 @@ export async function triggerNativeGoogleSignIn(): Promise<GoogleAuthResult> {
                   id_token: tokenResponse.id_token,
                 })
               } catch (e) {
-                return resolve({
-                  email: 'google_user@gmail.com',
-                  name: 'Google User',
-                })
+                return reject(new Error('Failed to fetch user profile from Google.'))
               }
             }
           },
@@ -62,26 +113,14 @@ export async function triggerNativeGoogleSignIn(): Promise<GoogleAuthResult> {
 
         client.requestAccessToken({ prompt: 'select_account' })
         return
-      } catch (err) {
-        console.warn('GIS TokenClient error:', err)
+      } catch (err: any) {
+        return reject(new Error(err.message || 'Failed to initialize Google login.'))
       }
     }
 
-    // If no Google Client ID is configured yet, prompt for Google account to sign in immediately
-    const userPromptEmail = window.prompt(
-      'Enter your Google email address to continue with Google:',
-      'tayyabsultan621@gmail.com'
+    return reject(
+      new Error('Google Client ID is missing or Google Identity SDK could not be loaded. Please check your network or environment settings.')
     )
-
-    if (userPromptEmail && userPromptEmail.trim()) {
-      const email = userPromptEmail.trim()
-      const name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
-      return resolve({
-        email,
-        name: name || 'Google User',
-      })
-    } else {
-      return reject(new Error('Google sign-in was cancelled.'))
-    }
   })
 }
+

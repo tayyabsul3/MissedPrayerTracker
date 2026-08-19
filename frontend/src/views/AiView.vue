@@ -342,7 +342,7 @@ function formatMarkdown(text: string): string {
         ></textarea>
 
         <!-- Send Button -->
-        <button
+        <button 
           type="submit"
           :disabled="!inputText.trim() || isStreaming"
           class="p-2.5 rounded-xl bg-gradient-to-tr from-[#d4af37] to-amber-300 text-[#022c22] font-bold transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-md hover:scale-105 active:scale-95 shrink-0 h-[44px] w-[44px] flex items-center justify-center"
